@@ -1,0 +1,19 @@
+node-container:
+  image: "greenmind/node_api_testedomingo:1"
+  container_name: "greenmind_node"
+  ports:
+    - 3000:3000
+  volumes:
+    - ".:/usr/src/app"
+#
+#mongo-container:
+#  image: mongo:3.4.2
+#  environment:
+#      - MONGO_INITDB_ROOT_USERNAME=root
+#      - MONGO_INITDB_ROOT_PASSWORD=root@pass
+#  ports:
+#    - "27017:27017"
+#  volumes:
+#    - "mongo-entrypoint/:/docker-entrypoint-initdb.d/"
+#
+#  command: mongod

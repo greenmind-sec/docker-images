@@ -1,0 +1,38 @@
+version: '3.3'
+volumes:
+  data:
+services:
+  greenmind-mysql:
+    container_name: greenmind_mysql
+    # Versão 5.6 FUNCIONAL
+    #image: mysql:5.6
+    # Versão 8.0 NÂO FUNCIONANDO
+    #image: mysql:8.0
+    image: "greenmind/db_greenmind:1"
+    ports:
+      - "3306:3306"
+    volumes:
+      # Os arquivos do banco de dados vai ficar no endereço /opt/mysql
+      - /opt/mysql:/var/lib/mysql
+      - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
+    environment:
+      - MYSQL_HOST=localhost
+      - MYSQL_USER=user@DB
+      - MYSQL_PASSWORD=pass@DB
+      - MYSQL_ROOT_PASSWORD=pass@DB
+      - MYSQL_DATABASE=db_dev
+  greenmind-pma:
+    image: phpmyadmin/phpmyadmin:latest
+#    links:
+#      - greenmind-mysql
+    depends_on:
+      - greenmind-mysql
+    ports:
+      # Port 80 padrão phpmyadmin
+      - 80:80
+    environment:
+      - PMA_HOST=greenmind-mysql
+      - PMA_PORT=3306
+      - PMA_USER=user@DB
+      - PMA_PASSWORD=pass@DB
+      - PMA_ARBITRARY=1
